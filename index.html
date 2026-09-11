@@ -3,205 +3,197 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#12372A" />
-  <meta name="description" content="MileMitra — friendly, trusted, low-detour carpooling for everyday commutes and intercity trips." />
-  <title>MileMitra — Better rides, better company</title>
+  <meta name="theme-color" content="#0b1320" />
+  <meta name="description" content="GoBuddy — trusted carpooling for daily commutes, intercity rides and workplace communities." />
+  <title>GoBuddy — Go together. Go better.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 </head>
 <body>
-  <div class="announcement">🌱 Share a ride, cut commute costs, and reduce one more car on the road.</div>
+  <div class="ambient one"></div><div class="ambient two"></div>
+  <div class="announcement"><span>🌱</span> Share the commute. Keep more money. Put fewer cars on the road. <button data-route="rewards">See your impact →</button></div>
+
   <header class="topbar">
-    <a class="brand" href="#home" aria-label="MileMitra home">
-      <span class="brand-mark">M</span><span>MileMitra</span>
+    <a class="brand" href="#home" aria-label="GoBuddy home">
+      <span class="brand-mark"><span class="car-dot"></span>G</span>
+      <span class="brand-text"><b>GoBuddy</b><small>Go together. Go better.</small></span>
     </a>
     <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="#find">Find a ride</a>
-      <a href="#offer">Offer a ride</a>
-      <a href="#safety">Safety</a>
-      <a href="#business">For companies</a>
-      <a href="#help">Help</a>
+      <a href="#find" data-nav="find">Find a ride</a>
+      <a href="#offer" data-nav="offer">Offer a ride</a>
+      <a href="#safety" data-nav="safety">Safety</a>
+      <a href="#work" data-nav="work">GoBuddy Work</a>
+      <a href="#help" data-nav="help">Help</a>
     </nav>
     <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
       <button class="btn ghost" data-open="loginModal">Log in</button>
       <button class="btn primary" data-open="signupModal">Join free</button>
+      <button class="avatar-btn hidden" id="userAvatar" data-route="profile" aria-label="Open profile">GB</button>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
     </div>
   </header>
 
+  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <button class="drawer-close" id="drawerClose">×</button>
+    <a href="#find">Find a ride</a><a href="#offer">Offer a ride</a><a href="#safety">Safety</a><a href="#work">GoBuddy Work</a><a href="#rewards">Rewards</a><a href="#help">Help</a>
+  </div>
+
   <main>
     <section id="home" class="page active">
-      <div class="hero">
+      <div class="hero-shell">
         <div class="hero-copy">
-          <span class="eyebrow">Carpooling that feels human</span>
-          <h1>Share the road, not the hassle.</h1>
-          <p>Match with verified people already going your way. Choose your comfort, pickup style, timing flexibility and trust level before you ride.</p>
-          <div class="hero-badges">
-            <span>✓ Verified profiles</span><span>✓ Low-detour matching</span><span>✓ Live ride safety</span>
-          </div>
+          <div class="eyebrow-row"><span class="eyebrow">🚘 Built for real commutes</span><span class="live-chip"><i></i> 1,248 rides nearby</span></div>
+          <h1>Your route already has a <span>Buddy.</span></h1>
+          <p>GoBuddy finds trusted people already travelling your way, then matches route overlap, timing, comfort and trust — so sharing a ride feels easy, predictable and human.</p>
+          <div class="hero-actions"><button class="btn primary xl" data-route="find">Find my Buddy →</button><button class="btn glass-btn xl" data-route="offer">Offer empty seats</button></div>
+          <div class="proof-row"><div class="face-stack"><span>AK</span><span>RM</span><span>NS</span><span>+</span></div><div><b>Trusted by daily commuters</b><small>Verified profiles • ratings • trip sharing</small></div></div>
         </div>
-        <div class="search-card glass">
-          <div class="segmented" role="tablist">
-            <button class="segment active" data-tripmode="find">I need a ride</button>
-            <button class="segment" data-tripmode="offer">I have seats</button>
+
+        <div class="hero-stage">
+          <div class="route-orbit"><span class="route-pin p1">●</span><span class="route-pin p2">◆</span><svg viewBox="0 0 500 400" aria-hidden="true"><path d="M50 300 C120 130 240 345 450 85" /></svg></div>
+          <div class="floating-card fc-one"><span>94%</span><div><b>Great match</b><small>4 min driver detour</small></div></div>
+          <div class="floating-card fc-two"><span>🛡️</span><div><b>Trust Ring</b><small>ID + work verified</small></div></div>
+          <div class="floating-card fc-three"><span>🌿</span><div><b>1.8 kg CO₂</b><small>saved on this ride</small></div></div>
+
+          <div class="search-card glass">
+            <div class="segmented" role="tablist">
+              <button class="segment active" data-tripmode="find">🔎 Find a ride</button>
+              <button class="segment" data-tripmode="offer">🚘 Offer a ride</button>
+            </div>
+            <form id="heroSearchForm" class="ride-form">
+              <label>From<div class="input-icon"><span>●</span><input id="heroFrom" placeholder="Pickup location" autocomplete="off" required /></div></label>
+              <button type="button" class="swap-btn" id="swapHero" aria-label="Swap locations">⇅</button>
+              <label>To<div class="input-icon"><span>◆</span><input id="heroTo" placeholder="Destination" autocomplete="off" required /></div></label>
+              <div class="form-row two"><label>Date<input id="heroDate" type="date" required /></label><label>Time<input id="heroTime" type="time" required /></label></div>
+              <div class="smart-options">
+                <button type="button" class="smart-pill selected" data-smart="lowdetour">⌁ Low detour</button>
+                <button type="button" class="smart-pill" data-smart="verified">✓ Verified only</button>
+                <button type="button" class="smart-pill" data-smart="quiet">☕ Quiet ride</button>
+              </div>
+              <button class="btn primary wide xl" type="submit"><span id="heroSubmitText">Show smart matches</span> →</button>
+              <button class="locate-link" id="useLocationBtn" type="button">⌖ Use my precise location</button>
+            </form>
           </div>
-          <form id="heroSearchForm" class="ride-form">
-            <label>Pickup
-              <div class="input-icon"><span>●</span><input id="heroFrom" placeholder="Current location or pickup" autocomplete="off" required /></div>
-            </label>
-            <button type="button" class="swap-btn" id="swapHero" aria-label="Swap locations">⇅</button>
-            <label>Destination
-              <div class="input-icon"><span>◆</span><input id="heroTo" placeholder="Where are you going?" autocomplete="off" required /></div>
-            </label>
-            <div class="form-row two">
-              <label>Date <input id="heroDate" type="date" required /></label>
-              <label>Time <input id="heroTime" type="time" required /></label>
-            </div>
-            <div class="form-row two">
-              <label>Seats <select id="heroSeats"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
-              <label>Flexibility <select id="heroFlex"><option value="0">Exact time</option><option value="10">± 10 min</option><option value="15" selected>± 15 min</option><option value="30">± 30 min</option></select></label>
-            </div>
-            <button class="btn primary wide" type="submit"><span id="heroSubmitText">Find smart matches</span> →</button>
-            <button class="locate-link" id="useLocationBtn" type="button">⌖ Use my precise location</button>
-          </form>
         </div>
       </div>
 
-      <section class="trust-strip">
-        <div><strong>4-layer</strong><span>trust verification</span></div>
-        <div><strong>&lt; 8 min</strong><span>target detour match</span></div>
-        <div><strong>24/7</strong><span>safety access</span></div>
-        <div><strong>₹0 surge</strong><span>fair cost sharing</span></div>
+      <section class="metric-ribbon">
+        <div><span>👥</span><b data-count="10000">0</b><small>happy commuters</small></div>
+        <div><span>🛣️</span><b data-count="50000">0</b><small>rides shared</small></div>
+        <div><span>🌿</span><b data-count="120">0</b><small>tons CO₂ avoided</small></div>
+        <div><span>⭐</span><b>4.8/5</b><small>community rating</small></div>
       </section>
 
       <section class="section">
-        <div class="section-head"><div><span class="eyebrow">Why it feels better</span><h2>Designed around real commute friction</h2></div></div>
-        <div class="feature-grid">
-          <article class="feature-card"><div class="icon">🧭</div><h3>Route-fit, not city-fit</h3><p>Matches score actual overlap, pickup detour, destination walk, time flexibility and traffic direction.</p></article>
-          <article class="feature-card"><div class="icon">🙂</div><h3>Comfort Match</h3><p>Quiet ride, chatty ride, music, AC, luggage, pets, accessibility and smoking preferences — visible before booking.</p></article>
-          <article class="feature-card"><div class="icon">🛡️</div><h3>Trust Rings</h3><p>Phone, work email, ID and vehicle checks create a visible confidence layer without oversharing personal data.</p></article>
-          <article class="feature-card"><div class="icon">📍</div><h3>Smart pickup points</h3><p>Map-assisted meeting spots reduce U-turns and unsafe roadside pickups while keeping the walk practical.</p></article>
-          <article class="feature-card"><div class="icon">🔁</div><h3>Routine autopilot</h3><p>Save Monday–Friday office patterns and automatically surface likely matches before departure time.</p></article>
-          <article class="feature-card"><div class="icon">🌿</div><h3>Visible impact</h3><p>See estimated fuel shared, money saved and CO₂ avoided — individually, with friends, or across your company.</p></article>
+        <div class="section-head"><div><span class="eyebrow">A better matching model</span><h2>Not another taxi app. A smarter way to share your route.</h2></div><p>GoBuddy is designed around the tiny frictions that decide whether people actually want to carpool again.</p></div>
+        <div class="bento-grid">
+          <article class="bento wide dark"><span class="card-kicker">GoBuddy Match™</span><h3>Route fit + human fit</h3><p>We combine actual route overlap, walking distance, driver detour, timing flexibility and ride preferences into one simple score.</p><div class="match-visual"><span class="score-ring">94%</span><div><b>Sector 56 → Cyber City</b><small>2 min walk • 4 min detour • quiet ride</small></div></div></article>
+          <article class="bento"><div class="big-icon">🛡️</div><h3>Trust Ring</h3><p>See phone, ID, vehicle and workplace verification at a glance — without oversharing private information.</p><div class="trust-dots"><i></i><i></i><i></i><i></i></div></article>
+          <article class="bento"><div class="big-icon">📍</div><h3>MeetSpot</h3><p>Smart pickup suggestions favour safe, easy-to-stop locations instead of awkward roadside pins.</p><button class="text-btn" data-demo="meetspot">Preview a MeetSpot →</button></article>
+          <article class="bento"><div class="big-icon">🔁</div><h3>Commute Autopilot</h3><p>Save recurring office days and GoBuddy quietly prepares likely matches before you leave.</p><button class="toggle-control" id="autopilotToggle"><span></span><b>Off</b></button></article>
+          <article class="bento wide warm"><span class="card-kicker">New</span><h3>Buddy Circles</h3><p>Create trusted mini-communities for colleagues, societies, campuses and regular routes. Search public rides or stay within your circle.</p><div class="circle-row"><span>NTF Work</span><span>DLF Commuters</span><span>Weekend Jaipur</span><button data-route="work">+ Create circle</button></div></article>
         </div>
       </section>
 
-      <section class="section soft">
-        <div class="split-layout">
-          <div>
-            <span class="eyebrow">A friendlier matching model</span>
-            <h2>You choose who “fits” your ride.</h2>
-            <p class="lead">A high route match is useful, but people also care about punctuality, safety, conversation, cleanliness and predictable pickup behavior.</p>
-            <div class="chips"><span>Same company</span><span>Women-only option</span><span>Quiet ride</span><span>Top-rated</span><span>Minimal walking</span><span>Zero-smoking</span></div>
-          </div>
-          <div class="match-card">
-            <div class="match-top"><span class="score">94%</span><div><strong>Great match</strong><small>Route + timing + preferences</small></div></div>
-            <div class="mini-route"><span></span><div><b>Sector 56, Gurugram</b><small>7:55 AM · 2 min walk</small><div class="route-line"></div><b>Cyber City</b><small>8:34 AM · Gate 3</small></div></div>
-            <div class="person-row"><div class="avatar">AK</div><div><strong>Ananya K.</strong><small>⭐ 4.9 · 126 rides · Work verified</small></div><span class="verified">✓</span></div>
-            <div class="micro"><span>☕ Quiet</span><span>❄️ AC</span><span>⏱ On-time</span></div>
-            <button class="btn primary wide" onclick="location.hash='#find'">View matching rides</button>
-          </div>
-        </div>
+      <section class="section soft-section">
+        <div class="section-head centered"><div><span class="eyebrow">How it works</span><h2>Four calm steps. No learning curve.</h2></div></div>
+        <div class="steps-grid"><article><span>1</span><div class="step-icon">👤</div><h3>Join & verify</h3><p>Create your profile and choose the trust checks you want.</p></article><article><span>2</span><div class="step-icon">🧭</div><h3>Set your route</h3><p>Use precise pickup and destination with timing flexibility.</p></article><article><span>3</span><div class="step-icon">🤝</div><h3>Pick your Buddy</h3><p>Compare match score, preferences, reviews and trip cost.</p></article><article><span>4</span><div class="step-icon">🌿</div><h3>Ride & earn impact</h3><p>Share the trip, split the cost and grow your green streak.</p></article></div>
       </section>
 
       <section class="section">
-        <div class="section-head"><div><span class="eyebrow">Built for everyday India</span><h2>One product, different travel moods</h2></div></div>
-        <div class="usecase-grid">
-          <article><span>🏢</span><h3>Office commute</h3><p>Recurring routes, work verification, company communities and arrival windows.</p></article>
-          <article><span>🛣️</span><h3>Intercity</h3><p>Seat publishing, luggage preferences, planned stops and co-traveller approvals.</p></article>
-          <article><span>🎓</span><h3>Campus & institutions</h3><p>Closed communities with domain verification and guardian-friendly safety sharing.</p></article>
-          <article><span>🎫</span><h3>Events</h3><p>Temporary destination hubs for concerts, exhibitions, airports and sporting events.</p></article>
-        </div>
+        <div class="story-grid"><article class="story-card green-story"><span>🌱</span><div><small>Today’s community impact</small><h3>2,864 solo kilometres avoided</h3><p>Every shared commute is a small win that compounds.</p></div><button class="btn light" data-route="rewards">See impact</button></article><article class="story-card app-story"><div><small>GoBuddy on the go</small><h3>Designed mobile-first</h3><p>Live trip sharing, pickup nudges, chat and route changes stay one tap away.</p><div class="app-pills"><span>Live updates</span><span>Trip PIN</span><span>In-app chat</span></div></div><div class="phone-mock"><div class="phone-screen"><b>GoBuddy</b><span>8:04 AM</span><div class="mini-map">⌁</div><button>I'm here</button></div></div></article></div>
       </section>
     </section>
 
     <section id="find" class="page section page-section">
-      <div class="page-title"><span class="eyebrow">Find a ride</span><h1>Choose the ride that fits you</h1><p>Mock results below demonstrate route, trust and comfort matching.</p></div>
+      <div class="page-title"><span class="eyebrow">Smart ride search</span><h1>Find the Buddy that fits your commute.</h1><p>Adjust your route and preferences; results re-rank instantly.</p></div>
       <div class="find-layout">
-        <aside class="filter-panel">
-          <h3>Your trip</h3>
-          <label>From<input id="findFrom" value="Sector 56, Gurugram" /></label>
-          <label>To<input id="findTo" value="Cyber City, Gurugram" /></label>
+        <aside class="filter-panel sticky">
+          <div class="filter-title"><h3>Your trip</h3><button id="resetFilters">Reset</button></div>
+          <label>From<input id="findFrom" value="Sector 56, Gurugram" /></label><label>To<input id="findTo" value="Cyber City, Gurugram" /></label>
           <div class="form-row two"><label>Date<input id="findDate" type="date" /></label><label>Time<input id="findTime" type="time" value="08:00" /></label></div>
-          <button class="btn secondary wide" id="refreshMatches">Update matches</button>
-          <hr>
-          <h3>Match preferences</h3>
-          <label class="check"><input type="checkbox" checked> Verified profiles only</label>
-          <label class="check"><input type="checkbox"> Same company/community</label>
-          <label class="check"><input type="checkbox"> Women-only</label>
-          <label class="check"><input type="checkbox" checked> Max detour 10 min</label>
-          <label>Ride mood<select><option>Any</option><option>Quiet</option><option>Friendly chat</option><option>Music okay</option></select></label>
+          <hr><h3>What matters today?</h3>
+          <label class="check"><input id="fVerified" type="checkbox" checked><span>Verified profiles only</span></label>
+          <label class="check"><input id="fWork" type="checkbox"><span>Same workplace/community</span></label>
+          <label class="check"><input id="fWomen" type="checkbox"><span>Women-preferred rides</span></label>
+          <label class="range-label">Maximum detour <b id="detourLabel">10 min</b><input id="detourRange" type="range" min="2" max="20" value="10"></label>
+          <label>Ride mood<select id="moodFilter"><option value="Any">Any</option><option value="Quiet">Quiet</option><option value="Chat">Friendly chat</option><option value="Music">Music okay</option></select></label>
+          <button class="btn primary wide" id="refreshMatches">Refresh matches</button>
         </aside>
         <div class="results-pane">
-          <div id="map" class="map-box"><div class="map-fallback"><span>🗺️</span><strong>Google Maps ready</strong><small>Add your API key in config.js to enable live map, places autocomplete and route precision.</small></div></div>
-          <div class="results-bar"><strong>6 good matches</strong><span>Sorted by best fit</span></div>
+          <div id="map" class="map-box"><div class="map-fallback"><div class="map-road"></div><span>📍</span><strong>Map precision is ready</strong><small>Add your restricted Google Maps browser key in config.js to enable Places + live route map.</small></div></div>
+          <div class="results-bar"><div><strong id="resultCount">6 matches</strong><span id="searchSummary">Sector 56 → Cyber City</span></div><select id="sortMatches"><option value="fit">Best fit</option><option value="price">Lowest cost</option><option value="rating">Highest rating</option><option value="depart">Earliest departure</option></select></div>
           <div id="rideResults" class="ride-results"></div>
         </div>
       </div>
     </section>
 
     <section id="offer" class="page section page-section">
-      <div class="page-title"><span class="eyebrow">Offer a ride</span><h1>Turn empty seats into shared savings</h1><p>You stay in control of route flexibility, co-rider approval and cost split.</p></div>
-      <form class="wizard-card" id="offerForm">
-        <div class="wizard-grid">
-          <label>Leaving from<input id="offerFrom" placeholder="Exact starting point" required /></label>
-          <label>Going to<input id="offerTo" placeholder="Destination" required /></label>
-          <label>Departure date<input type="date" required /></label>
-          <label>Departure time<input type="time" required /></label>
-          <label>Available seats<select><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
-          <label>Max pickup detour<select><option>0 min</option><option>5 min</option><option selected>10 min</option><option>15 min</option></select></label>
-          <label>Estimated cost share / seat<input type="number" min="0" placeholder="₹" /></label>
-          <label>Booking approval<select><option>Auto-approve trusted matches</option><option>Approve every request</option></select></label>
-        </div>
-        <fieldset><legend>Ride preferences</legend><div class="chips selectable" id="prefChips"><button type="button">Quiet</button><button type="button">Chat welcome</button><button type="button">Music okay</button><button type="button">No smoking</button><button type="button">Small luggage</button><button type="button">Women-only</button></div></fieldset>
-        <label>Anything riders should know?<textarea placeholder="Example: I leave exactly at 8:05 AM, pickup near the metro gate works best."></textarea></label>
-        <div class="publish-row"><label class="check"><input type="checkbox" checked> Suggest safe smart pickup points along my route</label><button class="btn primary" type="submit">Preview & publish ride</button></div>
-      </form>
+      <div class="page-title"><span class="eyebrow">Offer a ride</span><h1>Your empty seats can help someone get there.</h1><p>Publish once, keep control of requests, and never expose your exact home address.</p></div>
+      <div class="offer-layout">
+        <form id="offerForm" class="panel offer-form">
+          <div class="form-section"><span class="form-step">1</span><div><h3>Route & timing</h3><p>We use this to estimate route overlap and safe MeetSpots.</p></div></div>
+          <label>Starting near<input id="offerFrom" placeholder="e.g. Sector 56, Gurugram" required /></label><label>Going to<input id="offerTo" placeholder="e.g. Cyber City" required /></label>
+          <div class="form-row three"><label>Date<input id="offerDate" type="date" required></label><label>Departure<input id="offerTime" type="time" required></label><label>Seats<select id="offerSeats"><option>1</option><option>2</option><option selected>3</option><option>4</option></select></label></div>
+          <div class="form-section"><span class="form-step">2</span><div><h3>Ride personality</h3><p>Set expectations before anyone requests a seat.</p></div></div>
+          <div class="preference-picks" id="prefChips"><button type="button" class="selected">☕ Quiet</button><button type="button">💬 Chat welcome</button><button type="button" class="selected">🚭 No smoking</button><button type="button">🎵 Music okay</button><button type="button">🧳 Luggage okay</button><button type="button">🐾 Pets okay</button></div>
+          <div class="form-row two"><label>Cost share / seat (₹)<input id="offerPrice" type="number" min="0" value="70"></label><label>Approval<select id="offerApproval"><option>Review each request</option><option>Auto-accept highly matched</option></select></label></div>
+          <label class="check"><input id="offerRecurring" type="checkbox"><span>Repeat this ride on selected weekdays</span></label>
+          <div class="weekdays hidden" id="weekdayPicker"><button type="button">M</button><button type="button">T</button><button type="button">W</button><button type="button">T</button><button type="button">F</button></div>
+          <button class="btn primary wide xl" type="submit">Preview & publish ride →</button>
+        </form>
+        <aside class="panel preview-panel"><span class="eyebrow">Live preview</span><h3>Your ride card</h3><div id="offerPreview" class="preview-ride"></div><div class="privacy-note"><span>🔒</span><div><b>Your privacy comes first</b><p>Passengers see a nearby pickup zone until a booking is accepted.</p></div></div></aside>
+      </div>
     </section>
 
     <section id="safety" class="page section page-section">
-      <div class="page-title"><span class="eyebrow">Safety by design</span><h1>Trust should be visible before the car arrives.</h1><p>MileMitra’s proposed safety model combines identity confidence, trip transparency, privacy and fast access to help.</p></div>
-      <div class="safety-grid">
-        <article><div>1</div><h3>Trust Rings</h3><p>Progressive verification for phone, work email, government ID and vehicle ownership/registration.</p></article>
-        <article><div>2</div><h3>Ride PIN</h3><p>Start a trip only after rider and driver confirm a rotating PIN, reducing wrong-car mistakes.</p></article>
-        <article><div>3</div><h3>Live trip share</h3><p>Share vehicle, co-rider, route and ETA with trusted contacts using a time-limited link.</p></article>
-        <article><div>4</div><h3>Route anomaly alerts</h3><p>Production backend can detect long stops, unexpected deviation and stalled rides for safety prompts.</p></article>
-        <article><div>5</div><h3>Private communication</h3><p>Use masked calling/chat so personal phone numbers do not need to be exposed.</p></article>
-        <article><div>6</div><h3>Safety Center</h3><p>Emergency call, trusted contact, trip details, report flow and support access remain one tap away.</p></article>
-      </div>
-      <div class="callout"><strong>Important:</strong> emergency integrations, background checks, ID/KYC, insurance and local transport-law requirements must be implemented with approved providers and legal review before public launch.</div>
+      <div class="page-title"><span class="eyebrow">GoBuddy Safe</span><h1>Safety should be visible, simple and useful.</h1><p>Designed so a commuter can understand the trust level before booking and reach safety actions during a trip in seconds.</p></div>
+      <div class="safety-hero panel"><div><span class="shield-xl">🛡️</span><h2>One screen for your entire safety journey.</h2><p>Verification before the ride, a unique trip PIN at pickup, optional live sharing during the trip, route-change prompts, and structured reporting after arrival.</p><button class="btn primary" id="safetyDemo">Run safety demo</button></div><div class="safety-phone"><div class="safe-status"><i></i> Trip protected</div><h3>Ride with Ananya</h3><div class="safe-route"><span>08:02</span><b>Sector 56</b><i></i><span>08:37</span><b>Cyber City</b></div><button>Share live trip</button><button>Emergency help</button></div></div>
+      <div class="feature-grid safety-grid"><article class="feature-card"><div class="icon">✓</div><h3>Trust Ring</h3><p>Progressive phone, ID, vehicle and workplace verification with clear badges.</p></article><article class="feature-card"><div class="icon">#</div><h3>Trip PIN</h3><p>Confirm you are entering the expected vehicle before the trip begins.</p></article><article class="feature-card"><div class="icon">↗</div><h3>Trusted contact</h3><p>Share live trip details with someone you trust in one tap.</p></article><article class="feature-card"><div class="icon">⌁</div><h3>Route prompt</h3><p>If the trip moves unexpectedly, GoBuddy can ask whether everything is okay.</p></article><article class="feature-card"><div class="icon">☎</div><h3>Fast help</h3><p>Keep emergency and support actions prominent during an active trip.</p></article><article class="feature-card"><div class="icon">📝</div><h3>Structured reports</h3><p>Capture incidents with trip context so support teams can respond consistently.</p></article></div>
     </section>
 
-    <section id="business" class="page section page-section">
-      <div class="business-hero"><div><span class="eyebrow">MileMitra for Work</span><h1>Make office commuting lighter — without running a fleet.</h1><p>Private employee communities, commute analytics, shift windows, route clusters and ESG impact reporting.</p><button class="btn primary" data-open="businessModal">Request company demo</button></div><div class="dash-card"><div class="dash-head">Commute pulse <span>This month</span></div><div class="metric-grid"><div><strong>418</strong><small>shared rides</small></div><div><strong>7,840 km</strong><small>solo travel avoided</small></div><div><strong>₹1.9L</strong><small>estimated shared savings</small></div><div><strong>1.1 t</strong><small>estimated CO₂ avoided</small></div></div><div class="bar-chart"><i style="height:36%"></i><i style="height:62%"></i><i style="height:48%"></i><i style="height:82%"></i><i style="height:72%"></i><i style="height:91%"></i><i style="height:78%"></i></div></div></div>
-      <div class="feature-grid compact"><article class="feature-card"><h3>Domain-verified communities</h3><p>Restrict selected ride pools to employees or approved partner companies.</p></article><article class="feature-card"><h3>Shift-aware matching</h3><p>Define arrival/departure windows for plants, offices, BPO shifts or hybrid work.</p></article><article class="feature-card"><h3>Privacy-preserving analytics</h3><p>Aggregate routes into commute corridors instead of exposing individual movement histories.</p></article></div>
+    <section id="work" class="page section page-section">
+      <div class="page-title"><span class="eyebrow">GoBuddy Work</span><h1>A private commute network for your workplace.</h1><p>Help employees share rides inside verified communities while tracking participation and estimated sustainability impact.</p></div>
+      <div class="work-hero"><div><span class="eyebrow">For HR • Admin • ESG • Security</span><h2>Make commuting a community benefit.</h2><p>Domain verification, shift-aware routes, private Buddy Circles, commute campaigns and privacy-conscious impact reporting.</p><button class="btn light" id="workDemo">Request a demo</button></div><div class="dashboard-card"><div class="dash-head"><b>September commute pulse</b><span>● Live</span></div><div class="dash-metrics"><div><b>312</b><small>shared rides</small></div><div><b>4,860 km</b><small>solo travel avoided</small></div><div><b>₹38k</b><small>estimated saved</small></div><div><b>0.9 t</b><small>CO₂ avoided</small></div></div><div class="bar-chart"><i style="height:36%"></i><i style="height:52%"></i><i style="height:45%"></i><i style="height:68%"></i><i style="height:81%"></i><i style="height:74%"></i><i style="height:93%"></i></div></div></div>
+      <div class="usecase-grid"><article><span>🏢</span><h3>Verified workplace</h3><p>Limit a community to approved company domains or managed employee lists.</p></article><article><span>🕒</span><h3>Shift-aware matching</h3><p>Match arrival windows rather than forcing everyone into one exact departure time.</p></article><article><span>🎯</span><h3>Commute campaigns</h3><p>Create carpool weeks, route drives and participation streaks without exposing individual trips.</p></article><article><span>📊</span><h3>Impact dashboard</h3><p>See aggregate adoption, savings and estimated emissions reduction trends.</p></article></div>
+    </section>
+
+    <section id="rewards" class="page section page-section">
+      <div class="page-title"><span class="eyebrow">GoBuddy Rewards</span><h1>Make the good commute feel rewarding.</h1><p>A lightweight motivation layer for ride streaks, community milestones and sustainability impact.</p></div>
+      <div class="rewards-layout"><div class="reward-hero"><div class="level-ring"><span>7</span><small>Level</small></div><div><span class="eyebrow">Green Commuter</span><h2>1,240 Buddy Points</h2><p>Two more shared rides to unlock your next badge.</p><div class="progress"><i style="width:76%"></i></div></div></div><div class="badge-grid"><article>🌱<b>First Share</b><small>Completed</small></article><article>🔥<b>5 Ride Streak</b><small>Completed</small></article><article>🏢<b>Work Buddy</b><small>3 / 5</small></article><article>🌍<b>50 kg Saver</b><small>42 / 50 kg</small></article></div></div>
+    </section>
+
+    <section id="profile" class="page section page-section">
+      <div class="page-title"><span class="eyebrow">Your GoBuddy</span><h1>Profile & commute dashboard</h1><p>Your demo activity is stored locally in this browser.</p></div>
+      <div class="profile-grid"><aside class="panel profile-card"><div class="profile-avatar" id="profileInitials">GB</div><h2 id="profileName">Guest Buddy</h2><p id="profileEmail">Sign in to personalize your profile.</p><div class="trust-level"><span>Trust Ring</span><b id="trustText">1 / 4 verified</b><div><i></i><i></i><i></i><i></i></div></div><button class="btn secondary wide" id="verifyProfile">Improve Trust Ring</button></aside><div class="panel"><div class="tabs"><button class="active" data-profiletab="bookings">Bookings</button><button data-profiletab="offers">My rides</button><button data-profiletab="saved">Saved</button></div><div id="profileContent" class="profile-content"></div></div></div>
     </section>
 
     <section id="help" class="page section page-section">
-      <div class="page-title"><span class="eyebrow">Help Center</span><h1>Simple answers for common ride questions</h1></div>
-      <div class="faq" id="faq">
-        <details><summary>How is a carpool different from a taxi?</summary><p>The concept here is designed for people already travelling on a route to share available seats and reasonable trip costs. It should not be positioned as an unlicensed on-demand taxi operation.</p></details>
-        <details><summary>How does the match score work?</summary><p>The prototype combines route overlap, detour, timing flexibility, trust verification, rating and comfort preferences. A production system would use Google Routes data and server-side scoring.</p></details>
-        <details><summary>Can I choose women-only rides?</summary><p>Yes, the interface includes a preference filter. Production use should pair this with verified identity controls, clear eligibility rules and anti-abuse safeguards.</p></details>
-        <details><summary>How are payments handled?</summary><p>The prototype includes a Razorpay-ready checkout path plus mock mode. A production deployment needs your merchant account, backend signature verification, refunds, receipts, taxes and reconciliation.</p></details>
-        <details><summary>Can I schedule recurring office rides?</summary><p>Yes. The product concept supports saved commute routines and recurring ride availability, with reminders and match suggestions before the departure window.</p></details>
-      </div>
+      <div class="page-title"><span class="eyebrow">Help Center</span><h1>What can we help you with?</h1><p>Quick answers for booking, offering rides, payments, safety and account questions.</p></div>
+      <div class="help-search"><span>⌕</span><input id="faqSearch" placeholder="Search help, e.g. cancellation, payment, safety..."></div>
+      <div class="faq-grid" id="faqGrid"></div>
+      <div class="contact-card"><div><span class="eyebrow">Still need help?</span><h2>Talk to a human.</h2><p>Use the demo support form and we’ll show how an in-product help flow can work.</p></div><button class="btn primary" id="contactSupport">Contact support</button></div>
     </section>
   </main>
 
-  <nav class="mobile-bottom" aria-label="Mobile navigation"><a href="#home">⌂<small>Home</small></a><a href="#find">⌕<small>Find</small></a><a class="offer-fab" href="#offer">＋</a><a href="#safety">◈<small>Safety</small></a><button data-open="loginModal">◎<small>Profile</small></button></nav>
+  <footer>
+    <div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark">G</span><span class="brand-text"><b>GoBuddy</b><small>Go together. Go better.</small></span></a><p>Friendly, trusted carpooling for everyday routes.</p></div>
+    <div><b>Ride</b><a href="#find">Find a ride</a><a href="#offer">Offer a ride</a><a href="#rewards">Rewards</a></div><div><b>Trust</b><a href="#safety">Safety</a><a href="#help">Help center</a><a href="#work">For companies</a></div><div><b>Company</b><a href="#home">About GoBuddy</a><a href="#help">Privacy</a><a href="#help">Terms</a></div>
+    <div class="footer-bottom">© 2026 GoBuddy. Prototype for product development. <span>Made for better commutes 🌿</span></div>
+  </footer>
 
-  <footer><div class="brand"><span class="brand-mark">M</span><span>MileMitra</span></div><p>Friendly carpooling prototype · Designed for India-first commuting.</p><div><a href="#safety">Safety</a><a href="#help">Help</a><a href="#business">Business</a></div></footer>
+  <div class="modal" id="loginModal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">Welcome back</span><h2>Continue with GoBuddy</h2><p>Demo sign-in stores your profile only in this browser.</p><form class="auth-form" data-auth="login"><label>Email<input name="email" type="email" placeholder="you@company.com" required></label><label>Name<input name="name" placeholder="Your name" required></label><button class="btn primary wide" type="submit">Continue →</button></form><div class="or"><span>or</span></div><button class="btn google wide demo-google">G&nbsp;&nbsp; Continue with Google</button></div></div>
+  <div class="modal" id="signupModal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">Join the community</span><h2>Create your GoBuddy profile</h2><p>Start with the basics. Verification can be added when you are ready.</p><form class="auth-form" data-auth="signup"><label>Name<input name="name" placeholder="Your name" required></label><label>Email<input name="email" type="email" placeholder="you@company.com" required></label><label>Mobile<input name="mobile" placeholder="+91 98xxxxxx" required></label><button class="btn primary wide" type="submit">Create profile →</button></form></div></div>
+  <div class="modal" id="bookingModal" aria-hidden="true"><div class="modal-card booking-modal-card"><button class="modal-close">×</button><div id="bookingModalContent"></div></div></div>
+  <div class="modal" id="genericModal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><div id="genericModalContent"></div></div></div>
+  <div class="toast" id="toast" role="status"></div>
 
-  <div class="modal" id="loginModal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">Welcome back</span><h2>Log in to MileMitra</h2><label>Mobile number<input type="tel" placeholder="+91 98XXXXXX10"></label><button class="btn primary wide demo-login">Continue with OTP</button><p class="center muted">Demo flow — no OTP is sent.</p></div></div>
-  <div class="modal" id="signupModal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">Join the community</span><h2>Create your profile</h2><label>Full name<input placeholder="Your name"></label><label>Mobile number<input type="tel" placeholder="+91"></label><label>Work email (optional)<input type="email" placeholder="you@company.com"></label><button class="btn primary wide demo-login">Create account</button><p class="center muted">Demo signup — verification is not connected.</p></div></div>
-  <div class="modal" id="businessModal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">For companies</span><h2>Request a demo</h2><label>Company<input placeholder="Company name"></label><label>Work email<input type="email" placeholder="name@company.com"></label><label>Employees<select><option>50–200</option><option>201–1,000</option><option>1,001–5,000</option><option>5,000+</option></select></label><button class="btn primary wide demo-login">Send request</button></div></div>
-  <div class="toast" id="toast"></div>
+  <nav class="mobile-bottom"><a href="#home">⌂<small>Home</small></a><a href="#find">⌕<small>Find</small></a><a href="#offer">＋<small>Offer</small></a><a href="#safety">♢<small>Safety</small></a><a href="#profile">☺<small>Profile</small></a></nav>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+  <script src="config.js"></script><script src="app.js"></script>
 </body>
 </html>
