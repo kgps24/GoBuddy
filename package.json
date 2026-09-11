@@ -1,0 +1,9 @@
+{
+  "name":"milemitra-prototype",
+  "version":"1.0.0",
+  "private":true,
+  "description":"Responsive carpooling website prototype with Google Maps and Razorpay integration hooks.",
+  "main":"server.js",
+  "scripts":{"start":"node server.js"},
+  "dependencies":{"cors":"latest","dotenv":"latest","express":"latest","razorpay":"latest"}
+}
